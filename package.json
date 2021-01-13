@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "mocha --require @babel/register --recursive src/test/**/*.js --timeout 2000 --exit",
-    "build": "npm run clean && npm run build-babel",
+    "postinstall": "npm run clean && npm run build-babel",
     "build-babel": "babel -d ./build ./src -s --presets=@babel/preset-env",
     "clean": "rm -rf .nyc_output build coverage && mkdir build",
     "start": "nodemon ./build/index.js",
