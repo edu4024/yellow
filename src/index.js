@@ -8,7 +8,7 @@ import passport from 'passport'
 import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from './../swagger.json'
 
-const port = process.env.SERVER_APP_PORT || 8088
+const port = process.env.PORT || 8088
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {explorer : true}))
 app.use('/uploads', express.static('./uploads'))
