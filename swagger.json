@@ -1,0 +1,524 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a test REST api for Yellow team :).",
+    "version": "1.0.1",
+    "title": "REST Yellow",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "burmatov88@gmail.com"
+    }
+  },
+  "host": "http://localhost:8080",
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operations about user"
+    },
+    {
+      "name": "running",
+      "description": "Display user running statistics"
+
+    },
+    {
+      "name": "picture",
+      "description": "Just user pictures"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/signin": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user registration",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
+          },
+          "409": {
+            "description": "registration of an existing user"
+          },
+          "400": {
+            "description": "user validation failed"
+          }
+        }
+      }
+    },
+    "/signup": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user enter and authentication",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "body",
+            "description": "User email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "User password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/UserResponse"
+            }
+          },
+          "404": {
+            "description": "email not found"
+          },
+          "400": {
+            "description": "wrong password"
+          }
+        }
+      }
+    },
+    "/record": {
+      "post": {
+        "tags": [
+          "running"
+        ],
+        "summary": "user add record about running",
+        "security": [
+          {
+            "auth":[
+              "write",
+              "read"
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "time",
+            "in": "body",
+            "description": "Running time in milliseconds",
+            "required": true,
+            "type": "number",
+            "default": "5082000"
+          },
+          {
+            "name": "distance",
+            "in": "body",
+            "description": "Running distance in metres",
+            "required": true,
+            "type": "number",
+            "default": "5000"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/RunningResponse"
+            }
+          },
+          "302": {
+            "description": "bad token"
+          },
+          "400": {
+            "description": "validation error"
+          }
+        }
+      }
+    },
+    "/list": {
+      "get": {
+        "tags": [
+          "running"
+        ],
+        "summary": "user get array list of running records",
+        "security": [
+          {
+            "auth":[
+              "write",
+              "read"
+            ]
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/RunningResponse"
+            }
+          },
+          "302": {
+            "description": "bad token"
+          },
+          "400": {
+            "description": "validation error"
+          }
+        }
+      }
+    },
+    "/report": {
+      "get": {
+        "tags": [
+          "running"
+        ],
+        "summary": "user get report list of running records",
+        "security": [
+          {
+            "auth":[
+              "write",
+              "read"
+            ]
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/RunningReport"
+            }
+          },
+          "302": {
+            "description": "bad token"
+          },
+          "400": {
+            "description": "validation error"
+          }
+        }
+      }
+    },
+    "/picture": {
+      "post": {
+        "tags": [
+          "picture"
+        ],
+        "summary": "upload user picture.",
+        "description": "user can send from 1 to 5 pictures",
+        "security": [
+          {
+            "auth":[
+              "write",
+              "read"
+            ]
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "file to upload",
+            "required": false,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "302": {
+            "description": "bad token"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "picture"
+        ],
+        "summary": "get user picture.",
+        "description": "user get all of himself pictures",
+        "security": [
+          {
+            "auth":[
+              "write",
+              "read"
+            ]
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Picture"
+            }
+          },
+          "302": {
+            "description": "bad token"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "auth",
+      "in": "header"
+    },
+    "auth": {
+      "type": "oauth2",
+      "authorizationUrl": "http://localhost:8080/signup",
+      "flow": "implicit",
+      "scopes": {
+        "read": "read your records and files",
+        "write": "add records and files in your account"
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "ObjectId"
+        },
+        "name": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "token": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "UserResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number",
+          "default": "200"
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "token": {
+          "type": "string"
+        },
+        "data": {
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "UserResponse"
+      }
+    },
+    "Running": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "ObjectId"
+        },
+        "time": {
+          "type": "number"
+        },
+        "date": {
+          "type": "date"
+        },
+        "avSpeed": {
+          "type": "number"
+        },
+        "userId": {
+          "type": "ObjectId"
+        }
+      },
+      "xml": {
+        "name": "Running"
+      }
+    },
+    "RunningResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number",
+          "default": "200"
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "token": {
+          "type": "string"
+        },
+        "data": {
+          "properties": {
+            "time": {
+              "type": "number",
+              "default": "3082000"
+            },
+            "date": {
+              "type": "date",
+              "default": "2021-01-11"
+            },
+            "avSpeed": {
+              "type": "number",
+              "description": "return average speed km/h",
+              "default": "8.55"
+            },
+            "userId": {
+              "type": "ObjectId(5ffe02a9b72bea09845072ed)"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "RunningResponse"
+      }
+    },
+    "RunningReport":{
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "number",
+          "default": "200"
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "token": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "startWeek": {
+                "type": "date",
+                "default": "2021-01-11"
+              },
+              "endWeek": {
+                "type": "date",
+                "default": "2021-01-17"
+              },
+              "avTime": {
+                "type": "number",
+                "description": "return average time in milliseconds",
+                "default": "3082000.00"
+              },
+              "totalDistance": {
+                "type": "number",
+                "description": "return total distance in metres",
+                "default": "7500"
+              },
+              "avSpeed": {
+                "type": "number",
+                "description": "return average speed km/h",
+                "default": "8.55"
+              }
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "RunningReport"
+      }
+    },
+    "Picture": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "ObjectId"
+        },
+        "img": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "link": {
+                "type": "string"
+              },
+              "contentType": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "userId": {
+          "type": "ObjectId"
+        }
+      },
+      "xml": {
+        "name": "Picture"
+      }
+    }
+  }
+}
