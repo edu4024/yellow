@@ -9,7 +9,7 @@
       "email": "burmatov88@gmail.com"
     }
   },
-  "host": "http://localhost:8080",
+  "host": "https://app-yellow.herokuapp.com/",
   "tags": [
     {
       "name": "user",
@@ -313,7 +313,7 @@
     },
     "auth": {
       "type": "oauth2",
-      "authorizationUrl": "http://localhost:8080/signup",
+      "authorizationUrl": "https://app-yellow.herokuapp.com/signup",
       "flow": "implicit",
       "scopes": {
         "read": "read your records and files",
