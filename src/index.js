@@ -28,7 +28,7 @@ db.connect()
             if (err) {
                 console.log(err)
             }
-            console.log(`we have fun on http://localhost:${port}`)
+            console.log('we have fun on https://app-yellow.herokuapp.com/')
         })
     })
 
