@@ -13,7 +13,7 @@ const findUser = (token) => {
 
 const createRecord = (user, body, res) => {
     const { distance, time } = body
-    if (distance, time) {
+    if (distance && time) {
         const avSpeed = ((distance /  moment.duration(time).asSeconds()) * 3.6).toFixed(2)
         return Running
             .create({
